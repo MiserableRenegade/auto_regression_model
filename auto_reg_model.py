@@ -13,6 +13,10 @@ tf.app.flags.DEFINE_string('work_dir', '~/models/', 'Working directory.')
 FLAGS = tf.app.flags.FLAGS
 
 def main(_):
+    if len(sys.argv) < 2 or sys.argv[-1].startswith('-'):
+    	print('Usage: mnist_export.py [--training_iteration=x] '
+    	  '[--model_version=y] export_dir')
+    	sys.exit(-1)
     if FLAGS.training_iteration <= 0:
     	print('Please specify a positive value for training iteration.')
     	sys.exit(-1)
