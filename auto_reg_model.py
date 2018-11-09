@@ -3,20 +3,16 @@ import os
 import sys
 import numpy
 import tensorflow as tf
+from auto_reg_input import  *
 import matplotlib.pyplot as plt
-from linear_input import  *
 
-tf.app.flags.DEFINE_integer('training_iteration', 1000,
+tf.app.flags.DEFINE_integer('training_iteration', 100,
                             'number of training iterations.')
 tf.app.flags.DEFINE_integer('model_version', 1, 'version number of the model.')
-tf.app.flags.DEFINE_string('work_dir', '/tmp', 'Working directory.')
+tf.app.flags.DEFINE_string('work_dir', '~/models/', 'Working directory.')
 FLAGS = tf.app.flags.FLAGS
 
 def main(_):
-    if len(sys.argv) < 2 or sys.argv[-1].startswith('-'):
-    	print('Usage: mnist_export.py [--training_iteration=x] '
-    	  '[--model_version=y] export_dir')
-    	sys.exit(-1)
     if FLAGS.training_iteration <= 0:
     	print('Please specify a positive value for training iteration.')
     	sys.exit(-1)
@@ -24,11 +20,10 @@ def main(_):
     	print('Please specify a positive value for version number.')
     	sys.exit(-1)
     # Hyperparameters
-    learning_rate = 1e-2
+    learning_rate = 1e-3
     display_step = 1
     batch_size = 30
     hidden_layer_1 = 1
-    x, train_x,test_x = input_data() # take data from linear_input_data, linear_input_data.input_data()
     # Construct Model
     sess = tf.InteractiveSession()
     x, train_x,test_x = input_data() # take data from linear_input_data, linear_input_data.input_data()
@@ -53,10 +48,8 @@ def main(_):
     sess.run(tf.global_variables_initializer())
     for step in range(FLAGS.training_iteration-1):
         for epoch in range(iteration):
-            batch_x1 = train_X[epoch:batch_size+epoch+1:]
-            batch_y1 = train_Y[epoch+1:batch_size+epoch+2:]
-            #batch_x = batch_x1.reshape(1,-1)
-            #batch_y = batch_y1.reshape(1,-1)
+            batch_x1 = train_X[epoch:batch_size+epoch:]
+            batch_y1 = train_X[epoch+1:batch_size+epoch+1:]
             sess.run(optimizer, feed_dict={X: batch_x1, Y: batch_y1})
             if (epoch+1) % display_step == 0:
                     cosst = sess.run(loss, feed_dict={X: batch_x1, Y:batch_y1}) # show information about cost, weights, bias every 50 steps
