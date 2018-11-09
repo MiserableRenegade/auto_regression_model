@@ -75,7 +75,7 @@ def main(_):
     export_path_base = sys.argv[-1]
     export_path = os.path.join(
     tf.compat.as_bytes(export_path_base),
-    tf.compat.as_bytes(str(1)))
+    tf.compat.as_bytes(str(FLAGS.model_version)))
     print('Exporting trained model to', export_path)
     builder = tf.saved_model.builder.SavedModelBuilder(export_path)
     # Build the signature_def_map.
