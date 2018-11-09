@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 tf.app.flags.DEFINE_integer('training_iteration', 100,
                             'number of training iterations.')
 tf.app.flags.DEFINE_integer('model_version', 1, 'version number of the model.')
-tf.app.flags.DEFINE_string('work_dir', '~/models/', 'Working directory.')
+tf.app.flags.DEFINE_string('work_dir', './models/', 'Working directory.')
 FLAGS = tf.app.flags.FLAGS
 
 def main(_):
